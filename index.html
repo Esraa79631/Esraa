@@ -328,6 +328,230 @@ body{
   .photo-layer{transition:opacity 200ms ease!important;transform:none!important}
   .polaroid-caption{transition:opacity 150ms ease!important}
 }
+
+/* ══════════════════════════════════════════════════
+   GIFT BOX INTRO BUTTON & SCRATCH CARD STYLES
+   ══════════════════════════════════════════════════ */
+.gift-box{
+  position:relative;
+  width:96px;
+  height:96px;
+  margin:10px auto;
+  cursor:pointer;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  animation:gift-bounce 2.2s ease-in-out infinite;
+}
+.gift-box:focus-visible{
+  outline:3px solid var(--p1);
+  outline-offset:6px;
+  border-radius:12px;
+}
+@keyframes gift-bounce{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-8px) scale(1.04)}
+}
+.gift-lid{
+  position:absolute;
+  top:0;
+  left:-4px;
+  width:104px;
+  height:24px;
+  background:linear-gradient(135deg,#ff758c,#ff8fa3);
+  border-radius:6px;
+  box-shadow:0 4px 10px rgba(212,87,122,.28);
+  z-index:2;
+  transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .45s;
+  transform-origin:top right;
+}
+.gift-lid-ribbon{
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translateX(-50%);
+  width:16px;
+  height:100%;
+  background:linear-gradient(to right,#ffeaa7,#ffd166);
+}
+.gift-bow{
+  position:absolute;
+  top:-14px;
+  left:50%;
+  transform:translateX(-50%);
+  width:32px;
+  height:16px;
+}
+.gift-bow::before,.gift-bow::after{
+  content:'';
+  position:absolute;
+  top:0;
+  width:16px;
+  height:16px;
+  border:3px solid #ffd166;
+  border-radius:50% 50% 0 50%;
+  box-sizing:border-box;
+}
+.gift-bow::before{
+  left:0;
+  transform:rotate(-25deg);
+}
+.gift-bow::after{
+  right:0;
+  transform:scaleX(-1) rotate(-25deg);
+}
+.gift-body{
+  position:absolute;
+  bottom:0;
+  left:4px;
+  width:88px;
+  height:76px;
+  background:linear-gradient(135deg,#ff6584,#f38181);
+  border-radius:0 0 8px 8px;
+  box-shadow:0 10px 24px rgba(212,87,122,.32);
+  overflow:hidden;
+}
+.gift-ribbon-v{
+  position:absolute;
+  left:50%;
+  top:0;
+  transform:translateX(-50%);
+  width:16px;
+  height:100%;
+  background:linear-gradient(to right,#ffeaa7,#ffd166);
+}
+.gift-ribbon-h{
+  position:absolute;
+  top:50%;
+  left:0;
+  transform:translateY(-50%);
+  width:100%;
+  height:14px;
+  background:linear-gradient(to bottom,#ffeaa7,#ffd166);
+}
+.gift-tag{
+  position:absolute;
+  left:50%;
+  top:52%;
+  transform:translate(-50%,-50%);
+  background:#fff;
+  color:var(--p1);
+  font:700 14px/1 'Tajawal',sans-serif;
+  padding:6px 12px;
+  border-radius:999px;
+  white-space:nowrap;
+  box-shadow:0 2px 8px rgba(0,0,0,.15);
+  z-index:3;
+}
+.gift-box.opening .gift-lid{
+  transform:translateY(-52px) rotate(-18deg);
+  opacity:0;
+}
+.gift-box.opening{
+  animation:none;
+  transform:scale(1.08);
+  transition:transform .4s ease;
+}
+
+/* Button on Cake Modal to open Scratch card */
+.scratch-launch-btn{
+  display:inline-block;
+  margin-top:16px;
+  background:linear-gradient(135deg,#ff6b8b,#d4577a);
+  color:#fff;
+  border:0;
+  border-radius:999px;
+  padding:12px 24px;
+  font:700 clamp(14px,4.2vw,16px)/1 'Tajawal',system-ui,sans-serif;
+  cursor:pointer;
+  box-shadow:0 6px 18px rgba(212,87,122,.38);
+  animation:pulse-scratch-btn 2.2s infinite alternate;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+@keyframes pulse-scratch-btn{
+  0%{transform:scale(1);box-shadow:0 4px 14px rgba(212,87,122,.32)}
+  100%{transform:scale(1.05);box-shadow:0 8px 24px rgba(212,87,122,.55)}
+}
+
+/* Scratch Modal */
+.scratch-box{
+  background:#fff;
+  border-radius:14px;
+  box-shadow:0 14px 44px rgba(0,0,0,.35);
+  width:min(92vw,360px);
+  max-height:85vh;
+  max-height:85dvh;
+  padding:24px 18px 22px;
+  text-align:center;
+  transform:scale(.92) rotate(-1deg);
+  transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  box-sizing:border-box;
+  position:relative;
+}
+.modal-overlay.open .scratch-box{transform:scale(1) rotate(-1deg)}
+.scratch-title{
+  font-family:'Aref Ruqaa',serif;
+  font-size:clamp(20px,6vw,24px);
+  color:var(--p1);
+  margin:0 0 4px;
+}
+.scratch-hint{
+  font-size:clamp(13px,3.8vw,15px);
+  color:var(--soft);
+  margin:0 0 14px;
+}
+.scratch-card-wrap{
+  position:relative;
+  width:100%;
+  height:190px;
+  border-radius:12px;
+  overflow:hidden;
+  border:2px dashed var(--line);
+  box-sizing:border-box;
+  box-shadow:0 6px 18px rgba(0,0,0,.06);
+  user-select:none;
+  -webkit-user-select:none;
+}
+.scratch-secret{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:14px;
+  background:linear-gradient(135deg,#fff0f3 0%,#fde2e4 100%);
+  text-align:center;
+  box-sizing:border-box;
+}
+.scratch-secret h4{
+  font-family:'Aref Ruqaa',serif;
+  font-size:clamp(17px,5vw,20px);
+  color:var(--p1);
+  margin:0 0 6px;
+}
+.scratch-secret p{
+  font-size:clamp(13px,3.8vw,15px);
+  line-height:1.75;
+  color:var(--ink);
+  margin:0 0 6px;
+  font-weight:500;
+}
+.scratch-secret small{
+  color:var(--soft);
+  font-size:13px;
+  font-weight:bold;
+}
+.scratch-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  cursor:grab;
+  touch-action:none;
+  transition:opacity .5s ease;
+}
+
 </style>
 </head>
 <body>
@@ -337,7 +561,17 @@ body{
 
 <section id="intro">
   <h1>في حاجة مستنياكي<br>يا إسراء</h1>
-  <button class="go" id="start">افتحي</button>
+  <div class="gift-box" id="start" role="button" tabindex="0" aria-label="افتحي هديتك">
+    <div class="gift-lid">
+      <div class="gift-bow"></div>
+      <div class="gift-lid-ribbon"></div>
+    </div>
+    <div class="gift-body">
+      <div class="gift-ribbon-v"></div>
+      <div class="gift-ribbon-h"></div>
+      <span class="gift-tag">افتحي 🎁</span>
+    </div>
+  </div>
   <p>ارفعي الصوت وتأكدي إن الموبايل مش على الصامت 🎶</p>
 </section>
 
@@ -381,6 +615,24 @@ body{
     </div>
     <h3 class="cake-title">كل سنه وانتي طيبه يا قمررررررر 🎂</h3>
     <p class="cake-sub">ويارب تحققي كل اللي نفسك فيه ✨</p>
+    <button id="open-scratch" class="scratch-launch-btn">امسحي هديتك السرية 💌✨</button>
+  </div>
+</div>
+
+<!-- Secret Scratch Card Modal -->
+<div id="scratch-modal" class="modal-overlay" aria-hidden="true">
+  <div class="scratch-box">
+    <button class="modal-close" id="scratch-close" aria-label="إغلاق">✕</button>
+    <h3 class="scratch-title">رسالتك السرية 💌</h3>
+    <p class="scratch-hint" id="scratch-hint">امسحي بإصبعك على البطاقة عشان تكشفي السر ✨</p>
+    <div class="scratch-card-wrap" id="scratch-wrap">
+      <div class="scratch-secret">
+        <h4>أمنيتي ليكي من كل قلبي.. ✨</h4>
+        <p>«وعد مني.. إن كل سنة في حياتك هتكون أحلى من اللي قبلها، وهفضل دايماً جنبك وسندك في أي وقت وفخور بيكي دايماً يا أجمل إسراء ❤️»</p>
+        <small>سنة سعيدة عليكي يا رب 🎂</small>
+      </div>
+      <canvas id="scratch-canvas" class="scratch-canvas"></canvas>
+    </div>
   </div>
 </div>
 
@@ -561,7 +813,10 @@ function next(boom){
 }
 
 async function start(){
+  const startBtn = $('#start');
+  if(startBtn) startBtn.classList.add('opening');
   playMusic();
+  await new Promise(r => setTimeout(r, 260));
   try{
     await Promise.all([
       document.fonts.load('700 100px "Aref Ruqaa"', 'إسراء كل سنة وانتي طيبة يا أجمل في الدنيا'),
@@ -908,6 +1163,170 @@ function closeCakeModal(){
 }
 $('#cake-close').addEventListener('click',closeCakeModal);
 cModal.addEventListener('click',e=>{if(e.target===cModal) closeCakeModal()});
+
+/* ══════════════════════════════════════════════════
+   SCRATCH CARD LOGIC & INTERACTION
+   ══════════════════════════════════════════════════ */
+const scratchModal = $('#scratch-modal');
+const openScratchBtn = $('#open-scratch');
+const scratchCloseBtn = $('#scratch-close');
+let scratchInitialized = false;
+
+function openScratchModal(){
+  cModal.classList.remove('open');
+  scratchModal.classList.add('open');
+  if(!scratchInitialized){
+    scratchInitialized = true;
+    setTimeout(initScratchCard, 80);
+  }
+}
+
+function closeScratchModal(){
+  scratchModal.classList.remove('open');
+  if(cModal) cModal.classList.add('open');
+}
+
+if(openScratchBtn) openScratchBtn.addEventListener('click', openScratchModal);
+if(scratchCloseBtn) scratchCloseBtn.addEventListener('click', closeScratchModal);
+if(scratchModal) scratchModal.addEventListener('click', e => {
+  if(e.target === scratchModal) closeScratchModal();
+});
+
+// Keyboard support for gift box button
+$('#start').addEventListener('keydown', e => {
+  if(e.key === 'Enter' || e.key === ' '){
+    e.preventDefault();
+    start();
+  }
+});
+
+function initScratchCard(){
+  const wrap = $('#scratch-wrap');
+  const canvas = $('#scratch-canvas');
+  if(!wrap || !canvas) return;
+  const ctx = canvas.getContext('2d');
+  const rect = wrap.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  ctx.scale(dpr, dpr);
+
+  const w = rect.width;
+  const h = rect.height;
+
+  // Luxury rose-gold foil gradient
+  const grad = ctx.createLinearGradient(0, 0, w, h);
+  grad.addColorStop(0, '#f2b5c0');
+  grad.addColorStop(0.3, '#ffd6de');
+  grad.addColorStop(0.5, '#f5c2cb');
+  grad.addColorStop(0.7, '#f9cbd4');
+  grad.addColorStop(1, '#e8a5b2');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, w, h);
+
+  // Sparkle dots on foil
+  ctx.fillStyle = 'rgba(255,255,255,0.4)';
+  for(let i = 0; i < 36; i++){
+    const sx = (i * 47) % w;
+    const sy = (i * 31) % h;
+    ctx.beginPath();
+    ctx.arc(sx, sy, (i % 3) + 1.2, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // Centered instructions on the foil
+  ctx.fillStyle = '#944158';
+  ctx.font = '700 17px "Tajawal", sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('✨ امسحي هنا بإصبعك ✨', w / 2, h / 2 - 10);
+
+  ctx.font = '500 13px "Tajawal", sans-serif';
+  ctx.fillStyle = '#b35d74';
+  ctx.fillText('🎁 مفاجأة مستنياكي تحت الكارت 🎁', w / 2, h / 2 + 16);
+
+  let isDrawing = false;
+  let lastPos = null;
+  let scratched = false;
+  let moveCount = 0;
+
+  function getPos(e){
+    const r = canvas.getBoundingClientRect();
+    const clientX = e.clientX ?? (e.touches && e.touches[0] ? e.touches[0].clientX : 0);
+    const clientY = e.clientY ?? (e.touches && e.touches[0] ? e.touches[0].clientY : 0);
+    return {
+      x: clientX - r.left,
+      y: clientY - r.top
+    };
+  }
+
+  function scratch(pos){
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.lineWidth = 36;
+
+    ctx.beginPath();
+    if(lastPos){
+      ctx.moveTo(lastPos.x, lastPos.y);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    } else {
+      ctx.arc(pos.x, pos.y, 18, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    lastPos = pos;
+  }
+
+  function checkProgress(){
+    if(scratched) return;
+    moveCount++;
+    if(moveCount % 8 !== 0) return;
+
+    try{
+      const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imgData.data;
+      let clearPixels = 0;
+      const step = 32;
+      const totalSampled = data.length / (4 * step);
+
+      for(let i = 3; i < data.length; i += 4 * step){
+        if(data[i] < 128) clearPixels++;
+      }
+
+      if(clearPixels / totalSampled > 0.42){
+        scratched = true;
+        canvas.style.opacity = '0';
+        canvas.style.pointerEvents = 'none';
+        rnd(8, 200);
+        const hint = $('#scratch-hint');
+        if(hint) hint.innerHTML = '🎉 اتكشفت المفاجأة بالكامل يا قمر! ❤️';
+      }
+    }catch(_){}
+  }
+
+  canvas.onpointerdown = e => {
+    isDrawing = true;
+    lastPos = getPos(e);
+    scratch(lastPos);
+    try{ canvas.setPointerCapture(e.pointerId); }catch(_){}
+  };
+
+  canvas.onpointermove = e => {
+    if(!isDrawing) return;
+    const pos = getPos(e);
+    scratch(pos);
+    checkProgress();
+  };
+
+  canvas.onpointerup = canvas.onpointercancel = e => {
+    isDrawing = false;
+    lastPos = null;
+    try{ canvas.releasePointerCapture(e.pointerId); }catch(_){}
+  };
+}
+
 </script>
 </body>
 </html>
