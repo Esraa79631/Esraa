@@ -560,7 +560,7 @@ body{
 <body>
 <canvas id="c"></canvas>
 <button id="snd" aria-label="كتم الصوت" hidden>🔊</button>
-<audio id="bg-music" src="music.m4a" preload="auto" playsinline loop></audio>
+<audio id="bg-music" src="music.m4a?v=3" preload="auto" playsinline loop></audio>
 
 <section id="intro">
   <h1>في حاجة مستنياكي<br>يا إسراء</h1>
@@ -896,7 +896,7 @@ document.addEventListener('visibilitychange',()=>{
       bgMusic.pause();
     }
   } else {
-    if(bgMusic.dataset.wasPlaying === 'true' && (!cModal || !cModal.classList.contains('open'))){
+    if(bgMusic.dataset.wasPlaying === 'true'){
       bgMusic.play().catch(()=>{});
       delete bgMusic.dataset.wasPlaying;
     }
@@ -1162,7 +1162,6 @@ function openCakeModal(){
   setInterval(()=>rnd(2,400),2400);
 }
 function closeCakeModal(){
-  stopMusic();
   cModal.classList.remove('open');
 }
 $('#cake-close').addEventListener('click',closeCakeModal);
