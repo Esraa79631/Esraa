@@ -23,13 +23,51 @@ body{background:linear-gradient(170deg,var(--bg1),var(--bg2));color:var(--ink);f
 .go{font:700 19px/1 'Tajawal',system-ui,sans-serif;background:var(--btn);color:var(--btnink);border:0;border-radius:999px;padding:16px 36px;cursor:pointer}
 .go:focus-visible{outline:3px solid var(--p1);outline-offset:4px}
 #panel{position:fixed;left:50%;top:56%;width:min(90vw,26em);transform:translate(-50%,16px);opacity:0;transition:transform 1.2s cubic-bezier(.2,.8,.2,1),opacity 1.2s;text-align:center;z-index:4;pointer-events:none}
-#panel.on{transform:translate(-50%,0);opacity:1}
+#panel.on{transform:translate(-50%,0);opacity:1;pointer-events:auto}
 #panel h2{font-family:'Aref Ruqaa','Amiri',serif;font-size:30px;margin:0 0 6px;color:var(--p1)}
 #panel p{margin:0 0 8px;font-size:17px;line-height:1.9}
 #panel small{display:block;margin-top:12px;color:var(--soft);font-size:14px}
-#panel .go{margin-top:8px;font-size:17px;padding:14px 28px}
 #snd{position:fixed;top:calc(12px + env(safe-area-inset-top,0px));left:12px;width:44px;height:44px;padding:0;border-radius:50%;border:1px solid var(--line);background:var(--card);font-size:20px;cursor:pointer;z-index:6;display:grid;place-items:center}
 #snd[hidden]{display:none}
+
+/* Polaroid & Cake Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);z-index:20;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility .4s ease;padding:16px}
+.modal-overlay.open{opacity:1;visibility:visible}
+.polaroid-box{background:#fff;border-radius:10px;padding:12px 12px 18px;box-shadow:0 14px 44px rgba(0,0,0,.35);width:min(86vw,320px);display:flex;flex-direction:column;align-items:center;position:relative;transform:scale(.92) rotate(-1.5deg);transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.modal-overlay.open .polaroid-box{transform:scale(1) rotate(-1.5deg)}
+.polaroid-img-wrap{width:100%;aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:#f3e9ed;cursor:pointer}
+.polaroid-img-wrap img{width:100%;height:100%;object-fit:cover;transition:opacity .3s ease;display:block}
+.polaroid-caption{font-family:'Aref Ruqaa',serif;font-size:18px;color:#5e2440;margin:12px 0 4px;text-align:center;min-height:28px}
+.modal-nav{display:flex;align-items:center;justify-content:space-between;width:100%;margin-top:8px;padding:0 6px}
+.nav-arrow{background:var(--bg1);border:1px solid var(--line);color:var(--ink);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px;display:grid;place-items:center}
+.dots{display:flex;gap:6px}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(94,36,64,.25);transition:background .3s,transform .3s;cursor:pointer}
+.dot.active{background:var(--btn);transform:scale(1.25)}
+.modal-close{position:absolute;top:-12px;right:-12px;width:34px;height:34px;background:var(--btn);color:#fff;border:0;border-radius:50%;font-size:16px;cursor:pointer;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.3);z-index:10}
+
+/* Cake Final Card styles */
+.cake-box{padding:26px 20px 24px;text-align:center}
+.cake-container{position:relative;width:150px;height:140px;margin:8px auto 16px}
+.candle{position:absolute;top:4px;left:50%;transform:translateX(-50%);width:12px;height:42px;z-index:3}
+.candle-body{width:10px;height:26px;background:repeating-linear-gradient(45deg,#ffd166,#ffd166 4px,#ff6b8b 4px,#ff6b8b 8px);border-radius:3px;position:absolute;bottom:0;left:1px}
+.wick{width:2px;height:6px;background:#444;position:absolute;bottom:26px;left:5px}
+.flame{position:absolute;bottom:30px;left:2px;width:8px;height:18px;background:radial-gradient(ellipse at bottom,#ffffff 0%,#ffd700 45%,#ff4500 85%);border-radius:50% 50% 35% 35%;box-shadow:0 0 14px #ffd700,0 0 24px #ff6b8b;animation:flicker 1.2s ease-in-out infinite alternate;transform-origin:bottom center}
+
+@keyframes flicker{
+  0%{transform:scale(1) rotate(-1deg)}
+  50%{transform:scale(1.08,.94) rotate(2deg)}
+  100%{transform:scale(.96,1.04) rotate(-2deg)}
+}
+
+.cake{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:130px;height:84px}
+.cake-top{position:absolute;bottom:42px;left:15px;width:100px;height:34px;background:linear-gradient(to right,#ffcad4,#fbc3bc);border-radius:10px 10px 4px 4px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.06)}
+.frosting-top{position:absolute;bottom:70px;left:12px;width:106px;height:12px;background:#ffffff;border-radius:8px 8px 4px 4px;box-shadow:0 2px 4px rgba(212,87,122,.15)}
+.cake-bottom{position:absolute;bottom:8px;left:0;width:130px;height:40px;background:linear-gradient(to right,#ffb3c1,#fa9ba8);border-radius:8px 8px 4px 4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.08)}
+.plate{position:absolute;bottom:0;left:-10px;width:150px;height:10px;background:#f0e4d7;border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,.15)}
+
+.cake-title{font-family:'Aref Ruqaa',serif;font-size:23px;color:var(--p1);margin:6px 0 8px;line-height:1.4}
+.cake-sub{font-size:16px;color:var(--ink);margin:0;line-height:1.7}
+
 @media (prefers-reduced-motion:reduce){#panel,#intro{transition:none}}
 </style>
 </head>
@@ -49,12 +87,50 @@ body{background:linear-gradient(170deg,var(--bg1),var(--bg2));color:var(--ink);f
   <p>شكراً إنك انتي انتي.</p>
 </section>
 
+<!-- Photos Modal -->
+<div id="photo-modal" class="modal-overlay" aria-hidden="true">
+  <div class="polaroid-box">
+    <button class="modal-close" id="modal-close" aria-label="إغلاق">✕</button>
+    <div class="polaroid-img-wrap" id="polaroid-tap">
+      <img id="polaroid-img" src="images/photo1.jpg" alt="إسراء">
+    </div>
+    <p id="polaroid-cap" class="polaroid-caption">ضحكتك أحلى من البحر 🌊</p>
+    <div class="modal-nav">
+      <button id="p-prev" class="nav-arrow" aria-label="السابق">❮</button>
+      <div class="dots" id="modal-dots"></div>
+      <button id="p-next" class="nav-arrow" aria-label="التالي">❯</button>
+    </div>
+  </div>
+</div>
+
+<!-- Final Celebration Card Modal -->
+<div id="cake-modal" class="modal-overlay" aria-hidden="true">
+  <div class="polaroid-box cake-box">
+    <button class="modal-close" id="cake-close" aria-label="إغلاق">✕</button>
+    <div class="cake-container">
+      <div class="candle">
+        <div class="flame"></div>
+        <div class="wick"></div>
+        <div class="candle-body"></div>
+      </div>
+      <div class="cake">
+        <div class="frosting-top"></div>
+        <div class="cake-top"></div>
+        <div class="cake-bottom"></div>
+        <div class="plate"></div>
+      </div>
+    </div>
+    <h3 class="cake-title">كل سنه وانتي طيبه يا قمررررررر 🎂</h3>
+    <p class="cake-sub">ويارب تحققي كل اللي نفسك فيه ✨</p>
+  </div>
+</div>
+
 <script>
 const $=s=>document.querySelector(s), cv=$('#c'), cx=cv.getContext('2d');
 const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
 const SHAPES=[
   {lines:["إسراء"],font:'700 100px "Aref Ruqaa",serif'},
-  {lines:["كل سنة","وانتي طيبة"],font:'700 100px "Aref Ruqaa",serif'},
+  {lines:["كل سنة وانتي طيبة","يا أجمل إسراء في الدنيا"],font:'700 100px "Aref Ruqaa",serif'},
   {combo:true}
 ];
 let W,H,P=[],S=[],cols=[],ptr=null,cur=-1,on=false,T=0;
@@ -125,16 +201,17 @@ function frame(){
 function next(boom){
   cur++;setShape(cur,boom);
   if(boom)rnd(2,250);
-  if(cur<SHAPES.length-1)setTimeout(()=>next(true),3400);
+  if(cur<SHAPES.length-1)setTimeout(()=>next(true),cur===0?3200:4000);
   else{
     rnd(4,300);
     setTimeout(()=>$('#panel').classList.add('on'),1200);
     setInterval(()=>rnd(2,400),2400);
+    setTimeout(openPhotosModal, 4000);
   }
 }
 async function start(){
   audioOn();
-  try{await document.fonts.load('700 100px "Aref Ruqaa"','إسراء كل سنة وانتي طيبة')}catch(e){}
+  try{await document.fonts.load('700 100px "Aref Ruqaa"','إسراء كل سنة وانتي طيبة يا أجمل في الدنيا')}catch(e){}
   $('#intro').classList.add('off');
   size();readCols();
   const N=W<600?1400:2200;
@@ -185,6 +262,116 @@ cv.addEventListener('pointermove',e=>{if(ptr||e.pointerType==='mouse')ptr={x:e.c
 addEventListener('resize',()=>{if(!on)return;size();setShape(cur,false)});
 matchMedia('(prefers-color-scheme: dark)').addEventListener('change',readCols);
 size();readCols();
+
+/* Photos Modal Logic + Autoplay */
+const photos=[
+  {src:'images/photo1.jpg',cap:'ضحكتك أحلى من البحر 🌊'},
+  {src:'images/photo2.jpg',cap:'وجودك بيحلّي أي مكان ☕'},
+  {src:'images/photo3.jpg',cap:'أجمل واحدة في الدنيا ✨'},
+  {src:'images/photo4.jpg',cap:'قمر منور في أي مكان 🌙'},
+  {src:'images/photo5.jpg',cap:'ضحكة تفرّح القلب وتهوّن أي حاجة 💫'}
+];
+let photoIdx=0, autoSlideTimer=null;
+const pModal=$('#photo-modal'), pImg=$('#polaroid-img'), pCap=$('#polaroid-cap'), pDotsBox=$('#modal-dots');
+const cModal=$('#cake-modal');
+
+/* Create dots dynamically */
+pDotsBox.innerHTML=photos.map((_,i)=>`<span class="dot${i===0?' active':''}" data-i="${i}"></span>`).join('');
+const pDots=pDotsBox.querySelectorAll('.dot');
+
+function updatePhoto(idx){
+  photoIdx=(idx+photos.length)%photos.length;
+  pImg.style.opacity='0';
+  setTimeout(()=>{
+    pImg.src=photos[photoIdx].src;
+    pCap.textContent=photos[photoIdx].cap;
+    pImg.style.opacity='1';
+  },180);
+  pDots.forEach((d,i)=>d.classList.toggle('active',i===photoIdx));
+}
+
+function startAutoSlide(){
+  clearInterval(autoSlideTimer);
+  autoSlideTimer=setInterval(()=>{
+    if(photoIdx>=photos.length-1){
+      stopAutoSlide();
+      setTimeout(()=>{
+        closePhotosModal();
+        setTimeout(openCakeModal,450);
+      },3500);
+      return;
+    }
+    updatePhoto(photoIdx+1);
+  }, 3500);
+}
+
+function stopAutoSlide(){
+  clearInterval(autoSlideTimer);
+}
+
+function openPhotosModal(){
+  updatePhoto(0);
+  pModal.classList.add('open');
+  startAutoSlide();
+}
+
+function closePhotosModal(){
+  pModal.classList.remove('open');
+  stopAutoSlide();
+}
+
+$('#modal-close').addEventListener('click', closePhotosModal);
+pModal.addEventListener('click', e=>{if(e.target===pModal) closePhotosModal();});
+
+$('#p-next').addEventListener('click', ()=>{
+  if(photoIdx>=photos.length-1){
+    closePhotosModal();
+    setTimeout(openCakeModal,350);
+    return;
+  }
+  updatePhoto(photoIdx+1);
+  startAutoSlide();
+});
+$('#p-prev').addEventListener('click', ()=>{
+  updatePhoto(photoIdx-1);
+  startAutoSlide();
+});
+$('#polaroid-tap').addEventListener('click', ()=>{
+  if(photoIdx>=photos.length-1){
+    closePhotosModal();
+    setTimeout(openCakeModal,350);
+    return;
+  }
+  updatePhoto(photoIdx+1);
+  startAutoSlide();
+});
+pDots.forEach((d,i)=>{
+  d.addEventListener('click', ()=>{
+    updatePhoto(i);
+    startAutoSlide();
+  });
+});
+
+/* Final Card Logic */
+function openCakeModal(){
+  cModal.classList.add('open');
+  // Trigger celebration fireworks automatically
+  rnd(8, 200);
+  setInterval(()=>rnd(2, 400), 2400);
+
+  // Soft celebratory bell chime
+  if(typeof bell==='function'&&ac){
+    const t=ac.currentTime;
+    [523.25, 659.25, 783.99, 1046.50].forEach((f,i)=>{
+      bell(t+i*0.12, f, 0.22);
+    });
+  }
+}
+function closeCakeModal(){
+  cModal.classList.remove('open');
+}
+$('#cake-close').addEventListener('click', closeCakeModal);
+cModal.addEventListener('click', e=>{if(e.target===cModal) closeCakeModal();});
 </script>
 </body>
 </html>
