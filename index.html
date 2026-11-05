@@ -333,6 +333,7 @@ body{
 <body>
 <canvas id="c"></canvas>
 <button id="snd" aria-label="كتم الصوت" hidden>🔊</button>
+<audio id="bg-music" src="music.m4a" preload="auto" playsinline loop></audio>
 
 <section id="intro">
   <h1>في حاجة مستنياكي<br>يا إسراء</h1>
@@ -562,7 +563,7 @@ function next(boom){
 }
 
 async function start(){
-  audioOn();
+  playMusic();
   try{
     await Promise.all([
       document.fonts.load('700 100px "Aref Ruqaa"', 'إسراء كل سنة وانتي طيبة يا أجمل في الدنيا'),
@@ -592,43 +593,60 @@ async function start(){
   next(false);
 }
 
-let ac,out,bus,nextT=0,muted=false;
-const BEAT=60/90,NF=n=>440*Math.pow(2,(n-69)/12);
-const M=s=>12*(+s.slice(-1)+1)+{C:0,D:2,E:4,F:5,G:7,A:9,B:11}[s[0]]+(s[1]==='#'?1:0);
-const MEL=[["D4",0],["D4",.75],["E4",1],["D4",2],["G4",3],["F#4",4],
-["D4",6],["D4",6.75],["E4",7],["D4",8],["A4",9],["G4",10],
-["D4",12],["D4",12.75],["D5",13],["B4",14],["G4",15],["F#4",16],["E4",17],
-["C5",18],["C5",18.75],["B4",19],["G4",20],["A4",21],["G4",22]];
-const CH=[["G2","B3","D4","F#4"],["D3","A3","C4","F#4"],["A2","C4","E4","G4"],["G2","B3","D4","F#4"],["G2","B3","D4","G4"],["D3","A3","C4","F#4"],["C3","B3","E4","G4"],["G2","B3","D4","F#4"]];
-function tone(t,f,type,v,att,dec,lp){
-  const o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.value=f;
-  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+att);g.gain.exponentialRampToValueAtTime(.0001,t+att+dec);
-  let n=o;if(lp){const l=ac.createBiquadFilter();l.type='lowpass';l.frequency.value=lp;o.connect(l);n=l}
-  n.connect(g);g.connect(bus);o.start(t);o.stop(t+att+dec+.1);
+const bgMusic = $('#bg-music');
+let isMuted = false;
+
+function playMusic(){
+  if(!bgMusic) return;
+  bgMusic.volume = 0.85;
+  const p = bgMusic.play();
+  if(p && typeof p.catch === 'function'){
+    p.catch(e => console.log('Audio playback waiting for gesture:', e));
+  }
+  const s = $('#snd');
+  if(s){
+    s.hidden = false;
+    s.onclick = () => {
+      isMuted = !isMuted;
+      bgMusic.muted = isMuted;
+      s.textContent = isMuted ? '🔇' : '🔊';
+      s.setAttribute('aria-label', isMuted ? 'تشغيل الصوت' : 'كتم الصوت');
+    };
+  }
 }
-function bell(t,f,v){[[1,1],[2,.3],[3,.12],[5.4,.05]].forEach(([r,a])=>tone(t,f*r,'sine',v*a,.005,2.4/r))}
-function sched(t0){
-  MEL.forEach(([n,b])=>bell(t0+b*BEAT,NF(M(n)+12),.2));
-  CH.forEach((c,i)=>{
-    const s=t0+(1+3*i)*BEAT,bn=NF(M(c[0]));
-    tone(s,bn,'sine',.3,.01,1.1);tone(s,bn*2,'triangle',.08,.01,.7);
-    [1,2].forEach(k=>c.slice(1).forEach(n=>tone(s+k*BEAT,NF(M(n)),'triangle',.035,.02,.55,1400)));
-  });
+
+function stopMusic(){
+  if(!bgMusic) return;
+  let vol = bgMusic.volume;
+  const fade = setInterval(()=>{
+    vol -= 0.15;
+    if(vol <= 0.05){
+      clearInterval(fade);
+      bgMusic.pause();
+      bgMusic.currentTime = 0;
+      const s = $('#snd');
+      if(s) s.hidden = true;
+    } else {
+      bgMusic.volume = Math.max(0, vol);
+    }
+  }, 80);
 }
-function tick(){if(ac.currentTime>nextT-4){sched(nextT);nextT+=28*BEAT}}
-function audioOn(){
-  try{ac=new (window.AudioContext||window.webkitAudioContext)()}catch(e){return}
-  ac.resume();
-  out=ac.createGain();out.gain.value=.8;out.connect(ac.destination);
-  bus=ac.createGain();bus.connect(out);
-  const v=ac.createConvolver(),len=Math.floor(ac.sampleRate*2.8),b=ac.createBuffer(2,len,ac.sampleRate);
-  for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}
-  v.buffer=b;const wg=ac.createGain();wg.gain.value=.55;bus.connect(v);v.connect(wg);wg.connect(out);
-  nextT=ac.currentTime+.4;tick();setInterval(tick,500);
-  const s=$('#snd');s.hidden=false;
-  s.onclick=()=>{muted=!muted;out.gain.setTargetAtTime(muted?0:.8,ac.currentTime,.1);s.textContent=muted?'🔇':'🔊';s.setAttribute('aria-label',muted?'تشغيل الصوت':'كتم الصوت')};
-}
-document.addEventListener('visibilitychange',()=>{if(!ac)return;document.hidden?ac.suspend():ac.resume()});
+
+document.addEventListener('visibilitychange',()=>{
+  if(!bgMusic) return;
+  if(document.hidden){
+    if(!bgMusic.paused){
+      bgMusic.dataset.wasPlaying = 'true';
+      bgMusic.pause();
+    }
+  } else {
+    if(bgMusic.dataset.wasPlaying === 'true' && (!cModal || !cModal.classList.contains('open'))){
+      bgMusic.play().catch(()=>{});
+      delete bgMusic.dataset.wasPlaying;
+    }
+  }
+});
+
 $('#start').addEventListener('click',start);
 cv.addEventListener('pointerdown',e=>{ptr={x:e.clientX,y:e.clientY};if(on)fw(e.clientX,e.clientY)});
 cv.addEventListener('pointermove',e=>{if(ptr||e.pointerType==='mouse')ptr={x:e.clientX,y:e.clientY}});
@@ -882,16 +900,10 @@ pDots.forEach((d,i)=>{
 
 /* Final Card Logic */
 function openCakeModal(){
+  stopMusic();
   cModal.classList.add('open');
   rnd(8,200);
   setInterval(()=>rnd(2,400),2400);
-
-  if(typeof bell==='function'&&ac){
-    const t=ac.currentTime;
-    [523.25,659.25,783.99,1046.50].forEach((f,i)=>{
-      bell(t+i*0.12,f,0.22);
-    });
-  }
 }
 function closeCakeModal(){
   cModal.classList.remove('open');
