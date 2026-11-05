@@ -1162,6 +1162,7 @@ function openCakeModal(){
   setInterval(()=>rnd(2,400),2400);
 }
 function closeCakeModal(){
+  stopMusic();
   cModal.classList.remove('open');
 }
 $('#cake-close').addEventListener('click',closeCakeModal);
@@ -1176,7 +1177,6 @@ const scratchCloseBtn = $('#scratch-close');
 let scratchInitialized = false;
 
 function openScratchModal(){
-  stopMusic();
   cModal.classList.remove('open');
   scratchModal.classList.add('open');
   if(!scratchInitialized){
@@ -1186,6 +1186,7 @@ function openScratchModal(){
 }
 
 function closeScratchModal(){
+  stopMusic();
   scratchModal.classList.remove('open');
   if(cModal) cModal.classList.add('open');
 }
