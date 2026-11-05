@@ -320,8 +320,8 @@ body{
 .cake-bottom{position:absolute;bottom:8px;left:0;width:130px;height:40px;background:linear-gradient(to right,#ffb3c1,#fa9ba8);border-radius:8px 8px 4px 4px;box-shadow:inset 0 -4px 0 rgba(0,0,0,.08)}
 .plate{position:absolute;bottom:0;left:-10px;width:150px;height:10px;background:#f0e4d7;border-radius:10px;box-shadow:0 3px 8px rgba(0,0,0,.15)}
 
-.cake-title{font-family:'Aref Ruqaa',serif;font-size:clamp(19px,5.5vw,23px);color:var(--p1);margin:6px 0 8px;line-height:1.4}
-.cake-sub{font-size:clamp(14px,4.2vw,16px);color:var(--ink);margin:0;line-height:1.7}
+.cake-title{font-family:'Aref Ruqaa',serif;font-size:clamp(19px,5.5vw,23px);color:#c43862!important;margin:6px 0 8px;line-height:1.4}
+.cake-sub{font-size:clamp(14px,4.2vw,16px);color:#3d1427!important;margin:0;line-height:1.7;font-weight:500}
 
 @media (prefers-reduced-motion:reduce){
   #panel,#intro{transition:none}
@@ -475,13 +475,14 @@ body{
 
 /* Scratch Modal */
 .scratch-box{
-  background:#fff;
-  border-radius:14px;
+  background:#fff!important;
+  color:#3d1427!important;
+  border-radius:16px;
   box-shadow:0 14px 44px rgba(0,0,0,.35);
   width:min(92vw,360px);
-  max-height:85vh;
-  max-height:85dvh;
-  padding:24px 18px 22px;
+  max-height:88vh;
+  max-height:88dvh;
+  padding:22px 16px 20px;
   text-align:center;
   transform:scale(.92) rotate(-1deg);
   transition:transform .4s cubic-bezier(.2,.8,.2,1);
@@ -492,21 +493,22 @@ body{
 .scratch-title{
   font-family:'Aref Ruqaa',serif;
   font-size:clamp(20px,6vw,24px);
-  color:var(--p1);
+  color:#c43862!important;
   margin:0 0 4px;
 }
 .scratch-hint{
   font-size:clamp(13px,3.8vw,15px);
-  color:var(--soft);
-  margin:0 0 14px;
+  color:#7a304e!important;
+  margin:0 0 12px;
+  font-weight:600;
 }
 .scratch-card-wrap{
   position:relative;
   width:100%;
-  height:190px;
+  height:clamp(215px, 35vh, 255px);
   border-radius:12px;
   overflow:hidden;
-  border:2px dashed var(--line);
+  border:2px dashed #f4a6b8;
   box-sizing:border-box;
   box-shadow:0 6px 18px rgba(0,0,0,.06);
   user-select:none;
@@ -519,28 +521,29 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding:14px;
-  background:linear-gradient(135deg,#fff0f3 0%,#fde2e4 100%);
+  padding:16px 14px;
+  background:linear-gradient(135deg,#fff2f5 0%,#fde4ea 100%)!important;
   text-align:center;
   box-sizing:border-box;
 }
 .scratch-secret h4{
   font-family:'Aref Ruqaa',serif;
-  font-size:clamp(17px,5vw,20px);
-  color:var(--p1);
-  margin:0 0 6px;
+  font-size:clamp(17px,5vw,21px);
+  color:#c43862!important;
+  margin:0 0 8px;
 }
 .scratch-secret p{
-  font-size:clamp(13px,3.8vw,15px);
+  font-size:clamp(13.5px,3.9vw,15.5px);
   line-height:1.75;
-  color:var(--ink);
-  margin:0 0 6px;
-  font-weight:500;
+  color:#3a1020!important;
+  margin:0 0 10px;
+  font-weight:600;
+  text-shadow:none;
 }
 .scratch-secret small{
-  color:var(--soft);
-  font-size:13px;
-  font-weight:bold;
+  color:#94385a!important;
+  font-size:clamp(13px,3.6vw,14px);
+  font-weight:700;
 }
 .scratch-canvas{
   position:absolute;
@@ -1153,7 +1156,7 @@ pDots.forEach((d,i)=>{
 
 /* Final Card Logic */
 function openCakeModal(){
-  stopMusic();
+  // Music continues through the cake card
   cModal.classList.add('open');
   rnd(8,200);
   setInterval(()=>rnd(2,400),2400);
@@ -1173,6 +1176,7 @@ const scratchCloseBtn = $('#scratch-close');
 let scratchInitialized = false;
 
 function openScratchModal(){
+  stopMusic();
   cModal.classList.remove('open');
   scratchModal.classList.add('open');
   if(!scratchInitialized){
